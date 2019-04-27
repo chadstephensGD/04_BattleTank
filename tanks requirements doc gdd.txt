@@ -1,0 +1,39 @@
+Tank Game GDD
+
+Concept
+-----------
+Control a tank, drive around shooting opponent tanks or stationary turrets.
+
+Rules
+-----------
+- can move anywhere within the terrain surrounded by mountains
+- players start with finite health and ammo
+- hits take away health
+- Win by: destroying the opponenent, or all the opponents
+
+
+Requirements
+-----------
+Terrain:  (external Tools for creating terrain: Terragen or World Machine)
+ - Hills for cover, which are passable. 
+ - Impassible mountains to enclose the field.
+ - perhaps buildings and other obsticles 
+ - perhaps trees and bushes
+Static Meshes:
+ - simple tank: tracks, body, turret, barrel
+Graphics: 
+ - Textures for hills and mountains
+ - possible need for building graphics, trees and bushes
+ - tank body and gun barrel, tracks
+ - turret graphics
+Sounds:
+ - firing
+ - explosions
+ - engine noise
+ - barrel/turret moving
+ - background music for tension
+
+
+
+Develop using an interative cycle:
+world -> tank -> controls -> player 2 -> ui -> world
