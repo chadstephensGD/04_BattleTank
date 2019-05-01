@@ -48,9 +48,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
-	//UE_LOG(LogTemp, Warning, TEXT("Delta rotator %s"), *DeltaRotator.ToString());
-
-	Barrel->Elevate(5); // TODO remove static number
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
 
 // TODO:rotate the turret to position the x/y
