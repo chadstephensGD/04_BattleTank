@@ -38,5 +38,7 @@ ATank * ATankAIController::GetControlledTank() const
 
 ATank * ATankAIController::GetPlayerTank() const
 {
+	// below doesn't work because GetFirstPlayerController returns APlayerController, not TankPlayerController
+	//return GetWorld()->GetFirstPlayerController()->GetControlledTank();
 	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
