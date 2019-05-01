@@ -15,8 +15,7 @@ void ATankPlayerController::BeginPlay()
 	}
 }
 
-// Called every frame
-void ATankPlayerController::Tick(float DeltaTime)
+void ATankPlayerController::Tick(float DeltaTime) // Called every frame
 {
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
@@ -35,9 +34,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; // Out Parameter
 	if (GetSightRayHitLocation(HitLocation)) 
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		// TODO: tell controlled tank to aim at this point
-	} else UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		GetControlledTank()->AimAt(HitLocation);
+	}
 	
 }
 

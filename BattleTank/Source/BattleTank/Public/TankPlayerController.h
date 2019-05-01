@@ -23,7 +23,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000;
 
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	ATank * GetControlledTank() const;
 	void BeginPlay() override;
