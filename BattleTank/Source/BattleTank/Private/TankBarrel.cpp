@@ -11,8 +11,4 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 	// change the tilt of the barrel the correct amount this frame, not exceeding limits
 	auto NewElevation = FMath::Clamp<float>(RelativeRotation.Pitch + ElevationChange, MinElevationDegrees, MaxElevationDegrees);
 	SetRelativeRotation(FRotator(NewElevation, 0, 0));
-
-
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f called elevate in barrel component %f"), Time, RelativeSpeed);
 }
