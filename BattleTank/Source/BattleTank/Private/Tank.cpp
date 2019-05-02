@@ -40,17 +40,20 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::Fire()
 {
-	auto Time = GetWorld()->GetTimeSeconds();
-	FString OurTankName = this->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%f: %s fires!"), Time, *OurTankName);
-
 	if (!Barrel) { return; }
 
 	// Spawn the projectile at the end of the barrel
-	GetWorld()->SpawnActor<AProjectile>(
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBlueprint,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
-		);
+	);
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
+/*
+auto Time = GetWorld()->GetTimeSeconds();
+FString OurTankName = this->GetName();
+UE_LOG(LogTemp, Warning, TEXT("%f: %s fires!"), Time, *OurTankName);
+*/
