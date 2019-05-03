@@ -15,17 +15,28 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 		LeftTrack->SetThrottle(Throw);
 		RightTrack->SetThrottle(Throw);
 	} else {
-		UE_LOG(LogTemp, Error, TEXT("Tracks not set correctly"));
+		FString OurTankName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Error, TEXT("%s Tracks not set correctly"), *OurTankName);
 	}
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
 	if (LeftTrack && RightTrack) {
-		LeftTrack->SetThrottle(-Throw);
-		RightTrack->SetThrottle(Throw);
+		LeftTrack->SetThrottle(Throw);
+		RightTrack->SetThrottle(-Throw);
+	} else {
+		FString OurTankName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Error, TEXT("%s Tracks not set correctly"), *OurTankName);
 	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("Tracks not set correctly"));
-	}
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	FVector AIMovementIntention = MoveVelocity.GetSafeNormal();
+	FVector TankForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	float Throw = FVector::DotProduct(TankForwardVector, AIMovementIntention);
+	IntendMoveForward(Throw);
+	//FString OurTankName = GetOwner()->GetName();
+	//UE_LOG(LogTemp, Warning, TEXT("%s requesting direct move at %s!"),  *OurTankName, *AIMovementIntention.ToString());
 }
