@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2019 Chad Stephens, All rights Reserved
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
@@ -9,24 +9,21 @@
 // Sets default values
 ATank::ATank()
 {
+	FString OurTankName = this->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("[%s] Caris: cpp constructor"), *OurTankName);
+
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+}
 
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+void ATank::BeginPlay() 
+{
+	Super::BeginPlay();
+	FString OurTankName = this->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("[%s] Caris: cpp begin play"), *OurTankName);
 }
 
 /* ----- SETUP FUNCTIONS ------ */
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-void ATank::SetTurretReference(UTankTurret* TurretToSet)
-{
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
-
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -36,16 +33,18 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 /* ----- ACTION FUNCTIONS ------ */
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
+	if (!TankAimingComponent) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (Barrel && isReloaded)
+	if (TankAimingComponent->Barrel && isReloaded)
 	{
 		// Spawn the projectile at the end of the barrel
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, TankAimingComponent->Barrel->GetSocketLocation(FName("Projectile")), TankAimingComponent->Barrel->GetSocketRotation(FName("Projectile")));
 		// Set the projectfile moving
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();

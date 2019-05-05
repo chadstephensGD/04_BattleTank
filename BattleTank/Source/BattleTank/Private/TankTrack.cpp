@@ -2,11 +2,8 @@
 
 #include "TankTrack.h"
 
-
-
 void UTankTrack::SetThrottle(float Throttle)
 {
-
 	Throttle = FMath::Clamp<float>(Throttle, -1, 1);
 	FVector ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
 	FVector ForceLocation = GetComponentLocation();
