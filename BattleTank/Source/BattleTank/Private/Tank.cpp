@@ -33,18 +33,22 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 /* ----- ACTION FUNCTIONS ------ */
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
+	if (!ensure(TankAimingComponent->Barrel)) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (TankAimingComponent->Barrel && isReloaded)
-	{
+	if (isReloaded) {
 		// Spawn the projectile at the end of the barrel
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, TankAimingComponent->Barrel->GetSocketLocation(FName("Projectile")), TankAimingComponent->Barrel->GetSocketRotation(FName("Projectile")));
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint, 
+			TankAimingComponent->Barrel->GetSocketLocation(FName("Projectile")), 
+			TankAimingComponent->Barrel->GetSocketRotation(FName("Projectile"))
+		);
 		// Set the projectfile moving
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();

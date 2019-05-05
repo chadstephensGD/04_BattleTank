@@ -1,7 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2019 Chad Stephens, All rights Reserved
 
 #include "TankPlayerController.h"
 #include "BattleTank.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
@@ -13,6 +14,14 @@ void ATankPlayerController::BeginPlay()
 	} else {
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController has not possessed a tank"));
 	}
+
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent) {
+		FoundAimingComponent(AimingComponent);
+	} else {
+		UE_LOG(LogTemp, Error, TEXT("PlayerController can't find aiming component at begin play"));
+	}
+	
 }
 
 void ATankPlayerController::Tick(float DeltaTime) // Called every frame
@@ -29,7 +38,7 @@ ATank * ATankPlayerController::GetControlledTank() const
 // Moves the tank barrel moving towards where the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation; // Out Parameter
 	if (GetSightRayHitLocation(HitLocation)) 

@@ -13,6 +13,7 @@ class UTankAimingComponent;
 class AProjectile;
 class UTankMovementComponent;
 
+// Defines the actual tanks for the game
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {

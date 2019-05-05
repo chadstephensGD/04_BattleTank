@@ -17,7 +17,7 @@ void ATankAIController::Tick(float DeltaTime) // Called every frame
 	FString EnemyName = EnemyTank->GetName();
 	FString TankName = this->GetName();
 
-	if (EnemyTank) {
+	if (ensure(EnemyTank)) {
 		// Turn/Move towards the player
 		MoveToActor(EnemyTank, AcceptanceRadius); // TODO check radius is in cm
 		// Aim at the player
