@@ -19,11 +19,11 @@ void ATankAIController::Tick(float DeltaTime) // Called every frame
 
 	if (EnemyTank) {
 		//UE_LOG(LogTemp, Warning, TEXT("%s detected enemy tank"), *TankName);
-		// TODO: Turn/Move towards the player
+		// Turn/Move towards the player
 		MoveToActor(EnemyTank, AcceptanceRadius); // TODO check radius is in cm
 		// Aim at the player
 		ControlledTank->AimAt(EnemyTank->GetTargetLocation()); // course used GetActorLocation
-		//ControlledTank->Fire(); // TODO: limit firing rate
+		ControlledTank->Fire();
 	} else {
 		UE_LOG(LogTemp, Error, TEXT("%s did not detect enemy tank"), *TankName);
 	}
