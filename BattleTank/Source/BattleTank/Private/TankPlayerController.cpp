@@ -9,19 +9,10 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto ControlledTank = GetControlledTank();
-	if (ControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController possessed tank: %s"), *(ControlledTank->GetName()));
-	} else {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController has not possessed a tank"));
-	}
-
 	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent) {
+	if (ensure(AimingComponent)) {
 		FoundAimingComponent(AimingComponent);
-	} else {
-		UE_LOG(LogTemp, Error, TEXT("PlayerController can't find aiming component at begin play"));
 	}
-	
 }
 
 void ATankPlayerController::Tick(float DeltaTime) // Called every frame
@@ -38,15 +29,13 @@ ATank * ATankPlayerController::GetControlledTank() const
 // Moves the tank barrel moving towards where the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetControlledTank())) { return; }
+	auto ControlledTank = GetControlledTank();
+	if (!ensure(ControlledTank)) { return; }
 
 	FVector HitLocation; // Out Parameter
-	if (GetSightRayHitLocation(HitLocation)) 
-	{
-		// TODO: tell controlled tank to aim at this point
-		GetControlledTank()->AimAt(HitLocation);
+	if (GetSightRayHitLocation(HitLocation)) {
+		ControlledTank->AimAt(HitLocation);
 	}
-	
 }
 
 // Get world location of linetrace through crosshair

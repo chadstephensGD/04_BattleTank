@@ -4,14 +4,10 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
 {
-	FString OurTankName = this->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("[%s] Caris: cpp constructor"), *OurTankName);
-
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 }
@@ -19,8 +15,7 @@ ATank::ATank()
 void ATank::BeginPlay() 
 {
 	Super::BeginPlay();
-	FString OurTankName = this->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("[%s] Caris: cpp begin play"), *OurTankName);
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 /* ----- SETUP FUNCTIONS ------ */
