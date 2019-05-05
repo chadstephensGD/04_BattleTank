@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2019 Chad Stephens, All rights Reserved
 
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
