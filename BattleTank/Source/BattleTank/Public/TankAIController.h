@@ -6,9 +6,7 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-// Forward Declations
-class ATank;
-
+// Sets up the AI for the game
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
@@ -18,6 +16,5 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float AcceptanceRadius = 3000;
 
-	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 };

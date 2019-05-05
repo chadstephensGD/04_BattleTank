@@ -7,7 +7,6 @@
 #include "TankPlayerController.generated.h"
 
 // Forward Declations
-class ATank;
 class UTankAimingComponent;
 
 // Sets up player controls and user interface
@@ -19,8 +18,6 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 public:
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank * GetControlledTank() const;
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
 private:
