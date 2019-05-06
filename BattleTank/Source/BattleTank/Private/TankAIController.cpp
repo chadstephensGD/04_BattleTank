@@ -8,6 +8,7 @@ void ATankAIController::Tick(float DeltaTime) // Called every frame
 {
 	Super::Tick(DeltaTime);
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
 	if (!ensure(AimingComponent)) { return; }
 	auto EnemyTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
