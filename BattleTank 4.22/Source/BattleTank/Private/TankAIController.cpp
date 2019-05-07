@@ -17,7 +17,11 @@ void ATankAIController::Tick(float DeltaTime) // Called every frame
 		MoveToActor(EnemyTank, AcceptanceRadius); // TODO check radius is in cm
 		// Aim at the player
 		AimingComponent->AimAt(EnemyTank->GetTargetLocation()); // course used GetActorLocation
-		AimingComponent->Fire();
+
+		// if locked only
+		if (AimingComponent->GetFiringState() == EFiringStatus::Locked) {
+			AimingComponent->Fire();
+		}
 	} else {
 		FString TankName = this->GetName();
 		UE_LOG(LogTemp, Error, TEXT("%s did not detect enemy tank"), *TankName);
