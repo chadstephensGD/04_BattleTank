@@ -18,8 +18,22 @@ AProjectile::AProjectile()
 	CollisionMesh->SetVisibility(false);
 
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Projectile Launch Blast"));
+	LaunchBlast->AttachTo(RootComponent);
 }
 
+// Called when the game starts or when spawned
+void AProjectile::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+// Called every frame
+void AProjectile::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
 void AProjectile::LaunchProjectile(float Speed)
 {
 	/*auto Time = GetWorld()->GetTimeSeconds();
