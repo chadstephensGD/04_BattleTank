@@ -29,7 +29,9 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
+	if (Ammo == 0) {
+		FiringState = EFiringStatus::OutOfAmmo;
+    } else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds) {
 		FiringState = EFiringStatus::Reloading;
 	} else if (IsBarrelMoving()) {
 		FiringState = EFiringStatus::Aiming;
@@ -42,6 +44,13 @@ EFiringStatus UTankAimingComponent::GetFiringState() const
 {
 	return FiringState;
 }
+
+int UTankAimingComponent::GetAmmo() const
+{
+	return Ammo;
+}
+
+
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
@@ -85,7 +94,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 void UTankAimingComponent::Fire()
 {
-	if (FiringState != EFiringStatus::Reloading) {
+	if (FiringState != EFiringStatus::Reloading && Ammo > 0) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		// Spawn the projectile at the end of the barrel
@@ -94,6 +103,7 @@ void UTankAimingComponent::Fire()
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 		);
+		Ammo--;
 		// Set the projectfile moving
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
