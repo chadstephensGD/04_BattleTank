@@ -39,21 +39,21 @@ protected:
 	UPROPERTY(BlueprintReadonly, Category = "State")
 	EFiringStatus FiringState = EFiringStatus::Reloading;
 	UFUNCTION(BlueprintCallable)
-	int GetAmmo() const;
+	int32 GetAmmo() const;
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 6000; // set sensible starting value
-	UTankBarrel * Barrel = nullptr;
-	UTankTurret * Turret = nullptr;
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 Ammo = 3;
+	UTankBarrel * Barrel = nullptr;
+	UTankTurret * Turret = nullptr;
 	double LastFireTime = 0;
 	FVector AimDirection;
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	int Ammo = 3;
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
