@@ -3,6 +3,8 @@
 #include "TankAIController.h"
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 
 void ATankAIController::Tick(float DeltaTime) // Called every frame
 {
