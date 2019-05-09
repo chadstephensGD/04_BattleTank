@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+// setup on death delegate
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+
 // Defines the actual tanks for the game
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -15,6 +18,8 @@ public:
 	// functions
 	UFUNCTION(BlueprintPure, Category = "Statistics")
 	float GetHealthPercent() const; // Return current health as a percentage of starting health between 0 and 1
+
+	FTankDelegate OnDeath;
 
 private:
 	// variables

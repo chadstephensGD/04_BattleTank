@@ -1,10 +1,22 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2019 Chad Stephens, All rights Reserved
 
 #include "TankAIController.h"
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "Tank.h"
+
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		ATank* PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		// subscribe to tank's OnDeath
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+	}
+}
 
 void ATankAIController::Tick(float DeltaTime) // Called every frame
 {
@@ -14,7 +26,7 @@ void ATankAIController::Tick(float DeltaTime) // Called every frame
 	if (!ensure(AimingComponent)) { return; }
 	auto EnemyTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
-	if (ensure(EnemyTank)) {
+	if (EnemyTank) {
 		// Turn/Move towards the player
 		MoveToActor(EnemyTank, AcceptanceRadius); // TODO check radius is in cm
 		// Aim at the player
@@ -24,8 +36,11 @@ void ATankAIController::Tick(float DeltaTime) // Called every frame
 		if (AimingComponent->GetFiringState() == EFiringStatus::Locked) {
 			AimingComponent->Fire();
 		}
-	} else {
-		FString TankName = this->GetName();
-		UE_LOG(LogTemp, Error, TEXT("%s did not detect enemy tank"), *TankName);
 	}
+}
+
+void ATankAIController::OnTankDeath()
+{
+	if (!GetPawn()) { return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
 }

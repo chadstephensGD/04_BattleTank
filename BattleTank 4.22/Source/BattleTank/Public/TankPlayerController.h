@@ -18,9 +18,11 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 public:
 
 protected:
+	// functions
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
 private:
+	// variables
 	UPROPERTY(EditDefaultsOnly)
 	float CrossHairXLocation = 0.5;
 	UPROPERTY(EditDefaultsOnly)
@@ -28,6 +30,8 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 
+	// functions
+	virtual void SetPawn(APawn * InPawn) override;
 	void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
@@ -36,4 +40,6 @@ private:
 	bool GetSightRayHitLocation(FVector & OutHitLocation) const;
 	bool GetAimDirection(FVector2D ScreenLocation, FVector& AimDirection) const;
 	bool GetAimVectorHitLocation(FVector AimDirection, FVector& OutHitLocation) const;
+	UFUNCTION()
+	void OnTankDeath();
 };
