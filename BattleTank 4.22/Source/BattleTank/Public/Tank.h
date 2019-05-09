@@ -11,11 +11,16 @@ UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
 	GENERATED_BODY()
+public:
+	// functions
+	UFUNCTION(BlueprintPure, Category = "Statistics")
+	float GetHealthPercent() const; // Return current health as a percentage of starting health between 0 and 1
 
 private:
 	// variables
+	float MaxHealth = 100.0;
 	UPROPERTY(VisibleAnywhere, Category = "Statistics")
-	float CurrentHealth = 100.0;
+	float CurrentHealth = MaxHealth;
 
 	// functions
 	ATank(); // constructor
