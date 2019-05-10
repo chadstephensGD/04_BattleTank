@@ -4,6 +4,7 @@
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 #include "Tank.h"
 
 void ATankPlayerController::SetPawn(APawn * InPawn)
@@ -74,7 +75,7 @@ bool ATankPlayerController::GetAimVectorHitLocation(FVector AimDirection, FVecto
 	FHitResult HitResult;
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + AimDirection * LineTraceRange;
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation,ECollisionChannel::ECC_Visibility)) {
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation,ECollisionChannel::ECC_Camera)) {
 		// set hit locaiton
 		OutHitLocation = HitResult.Location;
 		return true;

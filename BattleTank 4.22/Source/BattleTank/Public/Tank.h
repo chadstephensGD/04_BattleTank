@@ -15,19 +15,22 @@ class BATTLETANK_API ATank : public APawn
 {
 	GENERATED_BODY()
 public:
+	// variables
+	FTankDelegate OnDeath;
 	// functions
 	UFUNCTION(BlueprintPure, Category = "Statistics")
 	float GetHealthPercent() const; // Return current health as a percentage of starting health between 0 and 1
-
-	FTankDelegate OnDeath;
+	virtual void BeginPlay() override;
 
 private:
 	// variables
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float MaxHealth = 100.0;
 	UPROPERTY(VisibleAnywhere, Category = "Statistics")
-	float CurrentHealth = MaxHealth;
+	float CurrentHealth;
 
 	// functions
 	ATank(); // constructor
-	virtual float TakeDamage(float DamageAmount,	struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
+	// TakeDamage is automatically called by UE when struck
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 };
