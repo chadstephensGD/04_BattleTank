@@ -15,6 +15,7 @@ class BATTLETANK_API USpawnPoint : public USceneComponent
 public:	
 	// Sets default values for this component's properties
 	USpawnPoint();
+	AActor* GetSpawnedActor() const;
 
 protected:
 	// Called when the game starts
@@ -24,9 +25,9 @@ private:
 	// variables
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AActor> SpawnClass;
+	UPROPERTY()
+	AActor *SpawnedActor;
 
 	// functions
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 };
